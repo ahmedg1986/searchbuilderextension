@@ -1002,7 +1002,18 @@ class CRM_Core_BAO_Mapping extends CRM_Core_DAO_Mapping {
           // CiviCRM versions.
           if (!is_numeric($value) && $fldName == 'state_province') {
             $value = CRM_Core_PseudoConstant::getKey('CRM_Core_BAO_Address', 'state_province_id', $value);
-          }          
+          }
+
+          /*
+          * Added by Ahmed
+          * Extend CiviCRM search builder to support location based searches
+          */
+          if($params['operator'][$key][$k] == 'range') {
+            $postal_code_low = $params['postal_code_low'][$key][$k];
+            $postal_code_high = $params['postal_code_high'][$key][$k];
+            $value = $postal_code_low.'-'.$postal_code_high;
+          }
+          /* END - Extend CiviCRM search builder to support location based searches */
 
           if ($row) {
             $fields[] = array(

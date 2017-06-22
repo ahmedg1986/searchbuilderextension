@@ -1984,6 +1984,15 @@ class CRM_Contact_BAO_Query {
         return;
 
       default:
+        /*
+        * Added by Ahmed
+        * Extend CiviCRM search builder to support location based searches
+        * This function will create query for range.
+        */
+        if($values[1] == 'range') {
+          $this->postalCoderange($values);
+          return;
+        }
         $this->restWhere($values);
         return;
     }
@@ -3630,6 +3639,41 @@ WHERE  $smartGroupClause
       $this->_where[$grouping][] = " ( $field <= '$val' ) ";
       $this->_qill[$grouping][] = ts('Postal code less than or equal to \'%1\'', array(1 => $value));
     }
+  }
+
+/**
+  * 
+  * Added by Ahmed
+  * Extend CiviCRM search builder to support location based searches
+  * This function will create query for range.      
+  * Where / qill clause for postal code range.
+  * @param array $values
+*/
+  public function postalCoderange(&$values) {
+    // skip if the fields dont have anything to do with postal_code
+    if (empty($this->_fields['postal_code'])) {
+      return;
+    }
+
+    list($name, $op, $value, $grouping, $wildcard) = $values;
+
+
+    // Handle numeric postal code range searches properly by casting the column as numeric
+
+    $value_arr = explode('-', $value);
+
+    $field = "IF (civicrm_address.postal_code REGEXP '^[0-9]+$', CAST(civicrm_address.postal_code AS UNSIGNED), 0)";
+    $val_high = CRM_Utils_Type::escape($value_arr[0], 'Integer');
+    $val_low = CRM_Utils_Type::escape($value_arr[1], 'Integer');
+
+    $this->_tables['civicrm_address'] = $this->_whereTables['civicrm_address'] = 1;
+
+    $this->_where[$grouping][] = " ( $field >= '$val_high' ) ";
+    $this->_qill[$grouping][] = ts('Postal code greater than or equal to \'%1\'', array(1 => $val_high));
+
+    $this->_where[$grouping][] = " ( $field <= '$val_low' ) ";
+    $this->_qill[$grouping][] = ts('Postal code less than or equal to \'%1\'', array(1 => $val_low));
+
   }
 
   /**

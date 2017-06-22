@@ -895,7 +895,8 @@ class CRM_Core_SelectValues {
       'IS EMPTY' => ts('Is Empty'),
       'IS NOT EMPTY' => ts('Not Empty'),
       'IS NULL' => ts('Is Null'),
-      'IS NOT NULL' => ts('Not Null')      
+      'IS NOT NULL' => ts('Not Null'),
+      'range' => ts('Range'),  //Added By Ahmed to Extend CiviCRM search builder to support location based searches
     );
     if ($fieldType) {
       switch ($fieldType) {
