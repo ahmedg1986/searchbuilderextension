@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<extension key="civicrm.search.builderextension" type="module">
+  <file>builderextension</file>
+  <name>Search Builder Extension</name>
+  <description>This extension allows you to search contacts with in a range of postal codes on Search builder page</description>
+  <license>AGPL-3.0</license>
+  <maintainer>
+    <author>Ahmed Ginani</author>
+    <email>ahmed@acquaintsoft.com</email>
+  </maintainer>
+  <urls>
+    <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
+  </urls>
+  <releaseDate>2017-06-01</releaseDate>
+  <version>1.0</version>
+  <develStage>alpha</develStage>
+  <compatibility>
+    <ver>4.7</ver>
+  </compatibility>
+  <comments>This is an extension for enhance search builder</comments>
+  <civix>
+    <namespace>CRM/Builderextension</namespace>
+  </civix>
+</extension>
